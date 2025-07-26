@@ -11,7 +11,9 @@ const http = require('http');
 
 // Create an HTTP server instance
 // This server will be able to handle incoming requests and send responses
-const server = http.createServer();
+const server = http.createServer((req, res) => {
+    res.end('Giving response from my first SERVER')
+});
 
 // Make the server listen for incoming requests on port 3000
 // Once the server starts successfully, log a confirmation message to the console
