@@ -1,22 +1,14 @@
-// MODULES -- are some sort of libraries that we can use in our code and is provide by Node.js;
-// const http = require('http'); // Importing the http module
-// const fs = require('fs'); // Importing the file system module
+const express = require('express');
+const app = express();
 
-// PACKAGE -- is a collection of modules that can be installed from the npm registry;
-// const express = require('express'); // Importing the express package u need to do npm install express
+app.get('/', (req, res) => {
+    res.send("Hello, World!")
+})
 
+app.get('/about', (req, res)=>{
+    res.send('Welcome to the About page!')
+})
 
-// Import the built-in 'http' module to create an HTTP server
-const http = require('http');
-
-// Create an HTTP server instance
-// This server will be able to handle incoming requests and send responses
-const server = http.createServer((req, res) => {
-    res.end('Giving response from my first SERVER')
-});
-
-// Make the server listen for incoming requests on port 3000
-// Once the server starts successfully, log a confirmation message to the console
-server.listen(3000, () => {
-  console.log('✅ Server is up and running at http://localhost:3000');
-});
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+})
