@@ -33,6 +33,14 @@ app.delete('/notes/:id', (req, res) => {
     res.json({ message: 'Note deleted successfully'});  
 })
 
+app.patch('/notes/:id', (req,res) => {
+    const id = parseInt(req.params.id);
+    const { role } = req.body;
+
+    notes[id].role = role;
+    res.json({ message: 'Note updated successfully'});
+})
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 })
