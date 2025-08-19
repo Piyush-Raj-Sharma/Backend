@@ -13,14 +13,25 @@ app.use(express.json()); // Middleware to parse JSON bodies
 
 let notes = []
 
+app.get('/notes', (req, res) => {
+    res.json(notes); // Send the notes array as a JSON response
+})
+
 app.post('/notes', (req, res) => {
     req.body; // Access the JSON body of the request
-    console.log(req.body);
+    // console.log(req.body);
     notes.push(req.body);
     res.json({ message: 'Note added successfully',
         notes: notes  
     });
 });
+
+app.delete('/notes/:id', (req, res) => {
+    const id = req.params.id;
+    // notes = notes.filter((note, index) => index != id);
+    delete notes[id];
+    res.json({ message: 'Note deleted successfully'});  
+})
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
