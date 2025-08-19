@@ -11,12 +11,16 @@ app.get('/about', (req, res)=>{
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
-app.post('notes', (req, res) => {
+let notes = []
+
+app.post('/notes', (req, res) => {
     req.body; // Access the JSON body of the request
-    res.send('Note received!');
     console.log(req.body);
-    
-})
+    notes.push(req.body);
+    res.json({ message: 'Note added successfully',
+        notes: notes  
+    });
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
