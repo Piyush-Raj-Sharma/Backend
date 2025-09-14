@@ -6,6 +6,8 @@ const app = express();
 
 
 app.use(express.json());
+
+//how to connect sever database to server.js file 
 connectDB();
 
 app.get('/', (req, res) => {
@@ -30,7 +32,15 @@ app.get('/notes', async (req, res) => {
     })
 })
 
-//how to connect sever database to server.js file 
+app.delete('/notes/:id', async (req, res) => {
+    const noteId = req.params.id;
+    await noteModel.findOneAndDelete({_id : noteId});
+
+    res.json({
+        message: "Note deleted successfully"
+    })
+})
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
