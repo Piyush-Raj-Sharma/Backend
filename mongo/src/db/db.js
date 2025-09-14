@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 // HOW server will be connected to mongoDB database
 // we write that logic in db.js file
 
