@@ -1,5 +1,6 @@
 const express = require('express');
 const userModel = require('../models/user.model');
+const jwt = require('jsonwebtoken');
 
 
 const router = express.Router();
@@ -12,9 +13,14 @@ router.post('/register', async (req, res) => {
         password
     });
 
+    const token = jwt.sign({
+        id: user._id
+    }, process.env.JWT_SECRET)
+
     res.status(201).json({
         message: "User registered successfully",
-        user
+        user,
+        token
     })
 })
 
@@ -34,6 +40,35 @@ router.post('/login', async (req, res) => {
     res.json({
         message: "User loggedIn successfully!"
     })
+})
+
+router.get('/user', async (req, res) => {
+    const {token} = req.body;
+
+    if(!token){
+        res.json({
+            message: "Unauthorized Access",
+        })
+    }
+
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await userModel.findOne({
+            _id : decoded.id
+        }).select("-password -__v") // .select("-password -__v") -> does not reads the key with - with it from the database 
+
+        // .lean() ->search
+
+        res.status(200).json({
+            message: "User data fetched successfully",
+            user
+        })
+    }
+    catch(err){
+        return res.status(401).json({
+            message: "Unauthorized - Invalid Token"
+        })
+    }
 })
 
 module.exports = router;
