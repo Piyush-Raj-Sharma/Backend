@@ -17,10 +17,12 @@ router.post('/register', async (req, res) => {
         id: user._id
     }, process.env.JWT_SECRET)
 
+    res.cookie("token", token); //setting the token in the cookies
+    //cookies are the pieces of data, that is send along with every HTTP request 
+
     res.status(201).json({
         message: "User registered successfully",
-        user,
-        token
+        user
     })
 })
 
@@ -43,7 +45,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
-    const {token} = req.body;
+    const {token} = req.cookies; //token will be accessed from cookie
 
     if(!token){
         res.json({
