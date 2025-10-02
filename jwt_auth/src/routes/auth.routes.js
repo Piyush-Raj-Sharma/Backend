@@ -8,6 +8,14 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
     const {username, password} = req.body;
 
+    const existingUser = await userModel.findOne({
+        username : username
+    })
+    if(existingUser) return res.status(400).json({message : "User already exists!!!"})
+
+    //in real world app, never store password as plain text, always hash the password before storing it in the database
+    //hashing -> converting plain text to some other form so that no one can read it    
+
     const user = await userModel.create({
         username,
         password
@@ -71,6 +79,13 @@ router.get('/user', async (req, res) => {
             message: "Unauthorized - Invalid Token"
         })
     }
+})
+
+router.get('/logout', (req, res) => {
+    res.clearCookie("token");
+    res.json({
+        message: "User logged out successfully"
+    })
 })
 
 module.exports = router;
