@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
   ); //setting the token in the cookies
   //cookies are the pieces of data, that is send along with every HTTP request
 
-  res.status(201).json({
+ return  res.status(201).json({
     message: "User registered successfully",
     user,
   });
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
     sameSite: "strict",
   }); //setting the token in the cookies
 
-  res.json({
+  return res.json({
     message: "User loggedIn successfully!",
   });
 });
@@ -111,7 +111,7 @@ router.get("/user", async (req, res) => {
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.json({
+  return res.json({
     message: "User logged out successfully",
   });
 });
